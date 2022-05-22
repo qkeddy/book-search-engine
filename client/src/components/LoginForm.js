@@ -40,6 +40,12 @@ const LoginForm = () => {
             // Login 
             Auth.login(data.login.token);
 
+            // If error, throw error & write to console
+            if (error) {
+                console.log(error);
+                throw new Error("something went wrong!");
+            }
+            
         } catch (err) {
             console.error(err);
             setShowAlert(true);

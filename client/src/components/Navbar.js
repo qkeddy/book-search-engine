@@ -1,3 +1,5 @@
+// No changes required for GraphQL refactor
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
