@@ -51,12 +51,15 @@ const resolvers = {
         
         // TODO - how to test this method without a token? 
         // Add a saved book to a user based upon the user's valid logged in context
-        saveBook: async (parent, { bookId }, context) => {
+        saveBook: async (parent, { bookId, authors, description, image, link, title }, context) => {
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $addToSet: { savedBooks: { bookId } } },
-                    { new: true });
+                    { $addToSet: { savedBooks: { bookId, authors, description, image, link, title } } },
+                    {
+                        new: true,
+                        runValidators: true,
+                    });
                 return updatedUser;
             }
             throw new AuthenticationError("You need to be logged in to use this feature.");
