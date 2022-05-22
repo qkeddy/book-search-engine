@@ -2,7 +2,7 @@
 const { signToken } = require("../utils/auth");
 const { AuthenticationError } = require("apollo-server-express");
 
-// Import Mongoose data models
+// Import Mongoose data model
 const { User } = require("../models");
 
 const resolvers = {
@@ -40,17 +40,34 @@ const resolvers = {
             return { token, user };
         },
 
-        //     createUser: async (parent, args) => {},
+        // Create a new user based upon 3 required fields and return the user obj and token
+        createUser: async (parent, { username, email, password }) => {
+            const user = await User.create(
+                { username, email, password }
+            );
+            const token = signToken(user);
+            return { token, user };
+        },
 
-        //     saveBook: async (parent, args) => {},
+        // Add a saved book to a user based upon the user's valid logged in context
+        saveBook: async (parent, { bookId }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { savedBooks: { bookId } } },
+                    { new: true });
+                return updatedUser;
+            }
+            throw new AuthenticationError("You need to be logged in to use this feature.");
+        },
 
+        // Remove a saved book to a user based upon the user's valid logged in context
         deleteBook: async (parent, { bookId }, context) => {
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
                     { $pull: { savedBooks: { bookId } } },
-                    { new: true }
-                );
+                    { new: true });
                 return updatedUser;
             }
             throw new AuthenticationError("You need to be logged in to use this feature.");
