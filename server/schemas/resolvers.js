@@ -23,18 +23,17 @@ const resolvers = {
     },
 
     Mutation: {
-        // TODO - Need to account for both email and username
         login: async (parent, { username, email, password }) => {
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ $or: [{ username }, { email }] });
 
             if (!user) {
-                throw new AuthenticationError("No profile with this email found!");
+                throw new AuthenticationError("Can't find this user");
             }
 
             const correctPw = await user.isCorrectPassword(password);
 
             if (!correctPw) {
-                throw new AuthenticationError("Incorrect password!");
+                throw new AuthenticationError("Wrong password!");
             }
 
             const token = signToken(user);
@@ -45,7 +44,17 @@ const resolvers = {
 
         //     saveBook: async (parent, args) => {},
 
-        //     deleteBook: async (parent, args) => {},
+        deleteBook: async (parent, { bookId }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { savedBooks: { bookId } } },
+                    { new: true }
+                );
+                return updatedUser;
+            }
+            throw new AuthenticationError("You need to be logged in to use this feature.");
+        },
     },
 };
 
