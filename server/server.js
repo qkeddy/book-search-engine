@@ -2,6 +2,9 @@ const express = require("express");
 const path = require("path");
 const { ApolloServer } = require("apollo-server-express");
 
+// Import schemas
+const { typeDefs, resolvers } = require("./schemas");
+
 // Connection to Mongo DB
 const db = require("./config/connection");
 
