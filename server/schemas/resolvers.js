@@ -48,7 +48,8 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-
+        
+        // TODO - how to test this method without a token? 
         // Add a saved book to a user based upon the user's valid logged in context
         saveBook: async (parent, { bookId }, context) => {
             if (context.user) {
