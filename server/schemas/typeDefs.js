@@ -34,7 +34,7 @@ const typeDefs = gql`
         me: User
     }
 
-    type Mutations {
+    type Mutation {
         # Create a user with username, email, password all required
         createUser(username: String!, email: String!, password: String!): Auth
 
