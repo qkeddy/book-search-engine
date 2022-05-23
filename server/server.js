@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const { ApolloServer } = require("apollo-server-express");
-const {authMiddleWare} = require("./utils/auth")
+const { authMiddleWare } = require("./utils/auth");
 
 // Import schemas
 const { typeDefs, resolvers } = require("./schemas");
@@ -13,7 +13,7 @@ const db = require("./config/connection");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// New Apollo Server
+// New Apollo Server with context
 const server = new ApolloServer({
     typeDefs,
     resolvers,

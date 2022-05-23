@@ -14,7 +14,8 @@ const resolvers = {
         },
 
         // Get the profile of the logged in user and populate savedBooks
-        me: async (parent, args, context) => {
+        me: async (parent, args, context, xxx) => {
+            console.log({ parent, args, context, xxx });
             if (context.user) {
                 return await User.findOne({ _id: context.user._id }).populate("savedBooks");
             }
@@ -42,14 +43,11 @@ const resolvers = {
 
         // Create a new user based upon 3 required fields and return the user obj and token
         createUser: async (parent, { username, email, password }) => {
-            const user = await User.create(
-                { username, email, password }
-            );
+            const user = await User.create({ username, email, password });
             const token = signToken(user);
             return { token, user };
         },
-        
-        // TODO - how to test this method without a token? 
+
         // Add a saved book to a user based upon the user's valid logged in context
         saveBook: async (parent, { bookId, authors, description, image, link, title }, context) => {
             if (context.user) {
@@ -60,7 +58,8 @@ const resolvers = {
                     {
                         new: true,
                         runValidators: true,
-                    });
+                    }
+                );
                 return updatedUser;
             }
             throw new AuthenticationError("You need to be logged in to use this feature.");
@@ -69,10 +68,7 @@ const resolvers = {
         // Remove a saved book to a user based upon the user's valid logged in context
         deleteBook: async (parent, { bookId }, context) => {
             if (context.user) {
-                const updatedUser = await User.findOneAndUpdate(
-                    { _id: context.user._id },
-                    { $pull: { savedBooks: { bookId } } },
-                    { new: true });
+                const updatedUser = await User.findOneAndUpdate({ _id: context.user._id }, { $pull: { savedBooks: { bookId } } }, { new: true });
                 return updatedUser;
             }
             throw new AuthenticationError("You need to be logged in to use this feature.");
