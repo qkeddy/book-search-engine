@@ -8,7 +8,7 @@ const typeDefs = gql`
         username: String!
         email: String!
         password: String!
-        savedBooks: [String]
+        savedBooks: [Book]
     }
 
     type Book {
@@ -29,8 +29,7 @@ const typeDefs = gql`
         # Supports query of one or multiple users
         users(_id: String): [User]
 
-        # TODO Question - is this correct?
-        # Returns the profile of the person logged in
+        # A query for the logged in user of "User" type and return only selected fields. 
         me: User
     }
 

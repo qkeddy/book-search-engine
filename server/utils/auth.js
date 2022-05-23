@@ -13,9 +13,10 @@ module.exports = {
 
         // ["Bearer", "<tokenvalue>"]
         if (req.headers.authorization) {
-            return req;
+            token = token.split(" ").pop().trim();
         }
 
+        // If there is no token, then continue with the resolvers and not adding any context
         if (!token) {
             return req;
         }
@@ -23,6 +24,7 @@ module.exports = {
         // verify token and get user data out of it
         try {
             const { data } = jwt.verify(token, secret, { maxAge: expiration });
+            // Attach a user to the request
             req.user = data;
         } catch {
             console.log("Invalid token");

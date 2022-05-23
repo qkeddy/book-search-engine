@@ -55,6 +55,7 @@ const resolvers = {
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
+                    // `addToSet` only adds to the array if it does not exist
                     { $addToSet: { savedBooks: { bookId, authors, description, image, link, title } } },
                     {
                         new: true,
