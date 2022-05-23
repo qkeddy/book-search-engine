@@ -10,7 +10,7 @@ const resolvers = {
         // Find a single or multiple users
         users: async (parent, { _id }) => {
             const params = _id ? { _id } : {};
-            return await User.find(params);
+            return await User.find(params).populate("savedBooks");
         },
 
         // Get the profile of the logged in user and populate savedBooks

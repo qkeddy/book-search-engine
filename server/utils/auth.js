@@ -15,9 +15,7 @@ module.exports = {
         if (req.headers.authorization) {
             token = token.split(" ").pop().trim();
         }
-
-        console.log("Got Here");
-
+        
         // If there is no token, then continue with the resolvers and not adding any context
         if (!token) {
             return req;
