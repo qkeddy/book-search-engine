@@ -14,8 +14,7 @@ const resolvers = {
         },
 
         // Get the profile of the logged in user and populate savedBooks
-        me: async (parent, args, context, xxx) => {
-            console.log({ parent, args, context, xxx });
+        me: async (parent, args, context) => {
             if (context.user) {
                 return await User.findOne({ _id: context.user._id }).populate("savedBooks");
             }

@@ -4,6 +4,10 @@ import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from "reac
 import Auth from "../utils/auth";
 import { searchGoogleBooks } from "../utils/API";
 
+// Import the `useMutation()` hook from Apollo Client
+import { useMutation } from "@apollo/client";
+
+
 // Import query hook
 import { SAVE_BOOK } from "../utils/mutations";
 
@@ -20,10 +24,13 @@ const SearchBooks = () => {
 
     // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
     // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
-    // TODO Quetion - purpose of `useEffect()`
+    // TODO Question - purpose of `useEffect()`
     useEffect(() => {
         return () => saveBookIds(savedBookIds);
     });
+
+    // Pass in `SAVE_BOOK` mutation function and return, error, loading and data
+    const [saveBook, { error }] = useMutation(SAVE_BOOK);
 
     // create method to search for books and set state on form submit
     const handleFormSubmit = async (event) => {
@@ -34,7 +41,7 @@ const SearchBooks = () => {
         }
 
         try {
-            // TODO Question - as we are interfacing with RESTful APIs, can this code stay the same?
+            // TODO Question - as we are interfacing with RESTful APIs, can this code stay the same? Do not need to refactor
             const response = await searchGoogleBooks(searchInput);
 
             if (!response.ok) {
@@ -63,21 +70,14 @@ const SearchBooks = () => {
         // find the book in `searchedBooks` state by the matching id
         const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
 
-        // get token
-        const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-        if (!token) {
-            return false;
-        }
-
         try {
-            // const response = await saveBook(bookToSave, token);
-            // TEMP
-            const response = "";
+            // TODO Question - would a better implementation be the use of `Input Type` (https://www.apollographql.com/docs/apollo-server/schema/schema/#input-types)
 
-            if (!response.ok) {
-                throw new Error("something went wrong!");
-            }
+            console.log(bookToSave);
+            const { data } = await saveBook({
+                // Keys have to match the value of the spread object
+                variables: { ...bookToSave },
+            });
 
             // if book successfully saves to user's account, save book id to state
             setSavedBookIds([...savedBookIds, bookToSave.bookId]);
@@ -128,6 +128,8 @@ const SearchBooks = () => {
                     })}
                 </CardColumns>
             </Container>
+            {/* Add error handling */}
+            {error && <div>Something went wrong...</div>}
         </>
     );
 };
