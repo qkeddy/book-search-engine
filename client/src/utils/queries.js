@@ -17,21 +17,3 @@ export const GET_ME = gql`
         }
     }
 `;
-
-// export const QUERY_SINGLE_PROFILE = gql`
-//     query me {
-//         users {
-//             _id
-//             username
-//             email
-//             savedBooks {
-//                 bookId
-//                 authors
-//                 description
-//                 image
-//                 link
-//                 title
-//             }
-//         }
-//     }
-// `;
