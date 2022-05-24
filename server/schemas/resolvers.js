@@ -67,7 +67,12 @@ const resolvers = {
         // Remove a saved book to a user based upon the user's valid logged in context
         deleteBook: async (parent, { bookId }, context) => {
             if (context.user) {
-                const updatedUser = await User.findOneAndUpdate({ _id: context.user._id }, { $pull: { savedBooks: { bookId } } }, { new: true });
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    // Remove the `bookId` from the `savedBooks`
+                    { $pull: { savedBooks: { bookId } } },
+                    { new: true }
+                );
                 return updatedUser;
             }
             throw new AuthenticationError("You need to be logged in to use this feature.");

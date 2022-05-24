@@ -41,7 +41,6 @@ const SearchBooks = () => {
         }
 
         try {
-            // TODO Question - as we are interfacing with RESTful APIs, can this code stay the same? Do not need to refactor
             const response = await searchGoogleBooks(searchInput);
 
             if (!response.ok) {
