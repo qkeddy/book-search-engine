@@ -37,7 +37,7 @@ const LoginForm = () => {
             // Spread `userFormData` into `loginUser` and return context data about the user for the subsequent login function
             const { data } = await loginUser({ variables: { ...userFormData } });
 
-            // Login 
+            // Store the token to local storage. (`login` refers to the typesDefs mutation)
             Auth.login(data.login.token);
 
             // If error, throw error & write to console
@@ -45,9 +45,9 @@ const LoginForm = () => {
                 console.log(error);
                 throw new Error("something went wrong!");
             }
-            
         } catch (err) {
             console.error(err);
+            // If error in login, then show alert
             setShowAlert(true);
         }
 
