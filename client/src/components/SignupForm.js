@@ -18,6 +18,7 @@ const SignupForm = () => {
     const [showAlert, setShowAlert] = useState(false);
 
     // Assign the CREATE_USER mutation to `createUser` and capture any errors returned
+    // TODO - should `error` be used in the JSX instead of the `<Alert` tag?
     const [createUser, { error }] = useMutation(CREATE_USER);
 
     const handleInputChange = (event) => {
@@ -40,13 +41,8 @@ const SignupForm = () => {
             const { data } = await createUser({ variables: { ...userFormData } });
 
             // Login
-            Auth.login(data.login.token);
+            Auth.login(data.createUser.token);
 
-            // If error, throw error & write to console
-            if (error) {
-                console.log(error);
-                throw new Error("something went wrong!");
-            }
         } catch (err) {
             console.error(err);
             setShowAlert(true);

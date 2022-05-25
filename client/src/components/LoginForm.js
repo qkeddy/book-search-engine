@@ -16,6 +16,7 @@ const LoginForm = () => {
     const [showAlert, setShowAlert] = useState(false);
 
     // Assign the LOGIN_USER mutation to `loginUser` and capture any errors returned
+    // TODO - should `error` be used in the JSX instead of the `<Alert` tag?
     const [loginUser, { error }] = useMutation(LOGIN_USER);
 
     const handleInputChange = (event) => {
@@ -36,15 +37,10 @@ const LoginForm = () => {
         try {
             // Spread `userFormData` into `loginUser` and return context data about the user for the subsequent login function
             const { data } = await loginUser({ variables: { ...userFormData } });
+            console.log(data);
 
             // Store the token to local storage. (`login` refers to the typesDefs mutation)
             Auth.login(data.login.token);
-
-            // If error, throw error & write to console
-            if (error) {
-                console.log(error);
-                throw new Error("something went wrong!");
-            }
         } catch (err) {
             console.error(err);
             // If error in login, then show alert
@@ -66,40 +62,17 @@ const LoginForm = () => {
                     Something went wrong with your login credentials!
                 </Alert>
                 <Form.Group>
-                    <Form.Label htmlFor="email">
-                        Email</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Your email"
-                        name="email"
-                        onChange={handleInputChange}
-                        value={userFormData.email}
-                        required
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        Email is required!
-                    </Form.Control.Feedback>
+                    <Form.Label htmlFor="email">Email</Form.Label>
+                    <Form.Control type="text" placeholder="Your email" name="email" onChange={handleInputChange} value={userFormData.email} required />
+                    <Form.Control.Feedback type="invalid">Email is required!</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Label htmlFor="password">
-                        Password
-                    </Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Your password"
-                        name="password"
-                        onChange={handleInputChange}
-                        value={userFormData.password} required
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        Password is required!
-                    </Form.Control.Feedback>
+                    <Form.Label htmlFor="password">Password</Form.Label>
+                    <Form.Control type="password" placeholder="Your password" name="password" onChange={handleInputChange} value={userFormData.password} required />
+                    <Form.Control.Feedback type="invalid">Password is required!</Form.Control.Feedback>
                 </Form.Group>
-                <Button
-                    disabled={!(userFormData.email && userFormData.password)}
-                    type="submit"
-                    variant="success">
+                <Button disabled={!(userFormData.email && userFormData.password)} type="submit" variant="success">
                     Submit
                 </Button>
             </Form>

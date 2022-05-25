@@ -37,6 +37,7 @@ const SavedBooks = () => {
             removeBookId(bookId);
 
             // Reload the books
+            // TODO - should we be using cache here? 
             window.location.reload();
         } catch (err) {
             console.log(err);

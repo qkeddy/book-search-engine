@@ -70,8 +70,6 @@ const SearchBooks = () => {
         const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
 
         try {
-            // TODO Question - would a better implementation be the use of `Input Type` (https://www.apollographql.com/docs/apollo-server/schema/schema/#input-types)
-
             console.log(bookToSave);
             const { data } = await saveBook({
                 // Keys have to match the value of the spread object
