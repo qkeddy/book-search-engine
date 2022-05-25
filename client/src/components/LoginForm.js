@@ -59,6 +59,7 @@ const LoginForm = () => {
         <>
             <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
                 <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant="danger">
+                    {/* This is a user friendly message */}
                     Something went wrong with your login credentials!
                 </Alert>
                 <Form.Group>
@@ -76,6 +77,7 @@ const LoginForm = () => {
                     Submit
                 </Button>
             </Form>
+            {/* Add `error` here */}
         </>
     );
 };

@@ -37,7 +37,8 @@ const SavedBooks = () => {
             removeBookId(bookId);
 
             // Reload the books
-            // TODO - should we be using cache here? 
+            // TODO - should we be using cache here?
+            // TODO - look at this: https://stackoverflow.com/questions/63192774/apollo-client-delete-item-from-cache
             window.location.reload();
         } catch (err) {
             console.log(err);

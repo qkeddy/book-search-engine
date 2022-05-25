@@ -1,7 +1,4 @@
 # Book Search Engine
-
-
-# E-Commerce Back End
 ![badmath](https://img.shields.io/github/license/qkeddy/book-search-engine)
 ![badmath](https://img.shields.io/github/issues/qkeddy/book-search-engine)
 ![badmath](https://img.shields.io/github/languages/top/qkeddy/book-search-engine)
