@@ -29,6 +29,8 @@ const userSchema = new Schema(
     toJSON: {
       virtuals: true,
     },
+    // Add the option below to control the exact name of collection.
+    // collection: "user"
   }
 );
 
