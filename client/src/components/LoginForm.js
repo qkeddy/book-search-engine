@@ -77,7 +77,7 @@ const LoginForm = () => {
                     Submit
                 </Button>
             </Form>
-            {/* Add `error` here */}
+            {error && <div>Something went wrong...</div>}
         </>
     );
 };
